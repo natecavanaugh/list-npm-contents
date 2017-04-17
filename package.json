@@ -1,0 +1,48 @@
+{
+  "name": "list-npm-contents",
+  "version": "0.0.0",
+  "description": "List the contents of an npm package",
+  "license": "MIT",
+  "repository": "natecavanaugh/list-npm-contents",
+  "bin": "cli.js",
+  "author": {
+    "name": "Nate Cavanaugh",
+    "email": "nate@shift22.com",
+    "url": "alterform.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "gulp test-coverage",
+    "coveralls": "gulp coveralls"
+  },
+  "keywords": [
+    "cli-app",
+    "cli",
+    "bin",
+    ""
+  ],
+  "dependencies": {
+    "got": "^6.7.1",
+    "meow": "^3.3.0",
+    "npm-api": "^0.4.9",
+    "tar-contents": "^1.0.1",
+    "tmp": "0.0.31"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "chai-string": "*",
+    "coveralls": "*",
+    "gulp-coveralls": "*",
+    "gulp-istanbul": "*",
+    "istanbul": "*",
+    "sinon": "*",
+    "gulp": "*",
+    "gulp-load-plugins": "*",
+    "gulp-help": "*",
+    "run-sequence": "*",
+    "gulp-mocha": "*"
+  }
+}

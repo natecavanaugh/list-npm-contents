@@ -24,25 +24,27 @@
     ""
   ],
   "dependencies": {
+    "bluebird": "^3.5.0",
+    "get-npm-tarball-url": "^2.0.0",
     "got": "^6.7.1",
+    "is-url": "^1.2.2",
+    "ls-archive": "^1.2.3",
     "meow": "^3.3.0",
-    "npm-api": "^0.4.9",
-    "tar-contents": "^1.0.1",
     "tmp": "0.0.31"
   },
   "devDependencies": {
-    "mocha": "*",
     "chai": "*",
     "chai-string": "*",
     "coveralls": "*",
-    "gulp-coveralls": "*",
-    "gulp-istanbul": "*",
-    "istanbul": "*",
-    "sinon": "*",
     "gulp": "*",
-    "gulp-load-plugins": "*",
+    "gulp-coveralls": "*",
     "gulp-help": "*",
+    "gulp-istanbul": "*",
+    "gulp-load-plugins": "*",
+    "gulp-mocha": "^3.0.1",
+    "istanbul": "*",
+    "mocha": "*",
     "run-sequence": "*",
-    "gulp-mocha": "*"
+    "sinon": "*"
   }
 }

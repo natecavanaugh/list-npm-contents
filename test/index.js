@@ -99,28 +99,41 @@ describe(
 					'1.0.0': '1.0.0',
 					'2.0': '2.0.0',
 					'3': '3.0.0',
-					// '4.x': '4.0.0',
-					// '4.1.x': '4.1.0',
-					'latest': '4.17.4'
+					'4.x': '4.0.0',
+					'4.1.x': '4.1.0',
+					'4.x.1': '4.0.1',
+					'latest': '4.17.4',
+					'1.0.0-rc.2': '1.0.0-rc.2',
+					'0.5.0-rc.1': '0.5.0-rc.1'
 				};
 
-				Object.keys(versions).map(
+				Object.keys(versions).forEach(
 					function(item, index) {
 						assert.equal(listNpmContents.normalizeVersion(item, packageMeta), versions[item]);
 					}
 				);
 
-				var err = null;
+				var invalidVersions = [
+					// Invalid because it doesn't exist in the package metadata
+					'next',
+					'x.4.0',
+				];
 
-				try {
-					listNpmContents.normalizeVersion('next', packageMeta);
-				}
-				catch (e) {
-					err = e;
-				}
+				invalidVersions.forEach(
+					function(item, index) {
+						var err = null;
 
-				assert.isNotNull(err);
-				assert.equal(err.message, 'Invalid version: next');
+						try {
+							listNpmContents.normalizeVersion(item, packageMeta);
+						}
+						catch (e) {
+							err = e;
+						}
+
+						assert.isNotNull(err);
+						assert.equal(err.message, `Invalid version: ${item}`);
+					}
+				);
 			}
 		);
 

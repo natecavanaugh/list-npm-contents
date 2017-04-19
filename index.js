@@ -15,7 +15,7 @@ tmp.setGracefulCleanup();
 Promise.promisifyAll(fs);
 Promise.promisifyAll(archive);
 
-const SEMVER = /^(\d+\.?){1,}$/;
+const SEMVER = /^(?=\d)((x|\d+)\.?){1,}$/;
 
 let registry = 'https://registry.npmjs.org/';
 
@@ -90,6 +90,8 @@ const list = function(packageName, version) {
 
 const normalizeVersion = function(version, metadata) {
 	if (version && SEMVER.test(version)) {
+		version = version.replace(/x/g, '0');
+
 		var parts = version.split('.');
 
 		while (parts.length < 3) {

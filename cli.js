@@ -5,7 +5,7 @@ var listNpmContents = require('./');
 
 var cli = meow(`
 	Usage
-	$ list-npm-contents [package-name]
+	$ list-npm-contents package-name
 
 	Options
 	-V, --module-version The version of the module you wish to view. Default: latest

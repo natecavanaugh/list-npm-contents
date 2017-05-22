@@ -3,7 +3,9 @@
 [![build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 
-> List the contents of an npm package
+> List the file contents of an npm package
+
+This will list the files that are actually in the tarball of the NPM module, not just what's reported in the files field of package.json.
 
 
 ## Install
@@ -18,8 +20,15 @@ $ npm install --save list-npm-contents
 ```js
 var listNpmContents = require('list-npm-contents');
 
-listNpmContents('belgian');
-//=> BEST BEER EVAR!
+listNpmContents('lpad').then(
+	files => console.log(files)
+);
+//=> [ 'package.json', 'index.js', 'license', 'readme.md' ]
+
+listNpmContents('lpad', '0.1.0').then(
+	files => console.log(files)
+);
+//=> [ 'package.json', 'lpad.js', 'readme.md' ]
 ```
 
 ## CLI
@@ -31,40 +40,42 @@ $ npm install --global list-npm-contents
 $ list-npm-contents --help
 
   Usage
-    list-npm-contents [input]
+$ list-npm-contents package-name
 
-  Example
-    list-npm-contents
-    BEER!
+	Options
+	-V, --module-version The version of the module you wish to view. Default: latest
 
-    list-npm-contents belgian
-    BEST BEER EVAR!
+	Examples:
+	$ list-npm-contents lpad
+	package.json
+	index.js
+	license
+	readme.md
 
-  Options
-    --foo Lorem ipsum. Default: false
+	$ list-npm-contents lpad -V 0.1.0
+	package.json
+	lpad.js
+	readme.md
 ```
 
 
 ## API
 
-### listNpmContents(input, [options])
+### listNpmContents(packageName, [version])
 
-#### input
+#### packageName
 
 *Required*
 Type: `string`
 
-Lorem ipsum.
+The name of the package on NPM to look up the files for.
 
-#### options
+#### version
 
-##### foo
+Type: `string`
+Default: `latest`
 
-Type: `boolean`
-Default: `false`
-
-Lorem ipsum.
-
+The version of the module to look for.
 
 ## License
 

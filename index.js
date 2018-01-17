@@ -52,7 +52,7 @@ const download = function(obj) {
 };
 
 const fetch = function(packageName, version) {
-	var url = got.get(registry + packageName).then(
+	var url = got.get(registry + packageName.replace(/\//, '%2F')).then(
 		function(response) {
 			var body = JSON.parse(response.body);
 

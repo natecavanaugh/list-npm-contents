@@ -15,17 +15,24 @@ chai.use(require('chai-string'));
 
 const assert = chai.assert;
 
-const packageMeta = require('./fixture/package_meta');
+const lodashPackageMeta = require('./fixture/lodash/package_meta');
+const cliPackageMeta = require('./fixture/cli/package_meta');
 
-const dist = packageMeta.versions['4.17.4'].dist;
+const lodashDist = lodashPackageMeta.versions['4.17.4'].dist;
 
-dist.tarball = dist.tarball.replace('lodash-4.17.4.tgz', 'package.tar.gz');
+lodashDist.tarball = lodashDist.tarball.replace('lodash-4.17.4.tgz', 'lodash.tar.gz');
 
-const archivePath = path.join(__dirname, './fixture/package.tar.gz');
+const cliDist = cliPackageMeta.versions['0.4.2'].dist;
 
-const packageArchive = fs.readFileSync(archivePath);
+cliDist.tarball = cliDist.tarball.replace('cli-0.4.2.tgz', 'cli.tar.gz');
 
-const body = JSON.stringify(packageMeta);
+const lodashPath = path.join(__dirname, './fixture/lodash.tar.gz');
+const cliPath = path.join(__dirname, './fixture/cli.tar.gz');
+
+const packageArchive = fs.readFileSync(lodashPath);
+
+const lodashBody = JSON.stringify(lodashPackageMeta);
+const cliBody = JSON.stringify(cliPackageMeta);
 
 describe(
 	'list NPM contents',
@@ -43,7 +50,10 @@ describe(
 						var value = {};
 
 						if (url.endsWith('lodash')) {
-							value.body = body;
+							value.body = lodashBody;
+						}
+						else if (url.endsWith('cli')) {
+							value.body = cliBody;
 						}
 
 						return Promise.resolve(value);
@@ -51,7 +61,7 @@ describe(
 				);
 
 				sandbox.stub(fs, 'writeFile').callsArg(2);
-				sandbox.stub(tmp, 'dir').callsArgWith(1, null, path.dirname(archivePath));
+				sandbox.stub(tmp, 'dir').callsArgWith(1, null, path.dirname(lodashPath));
 			}
 		);
 
@@ -75,6 +85,23 @@ describe(
 					}
 				)
 				.catch(done);
+			}
+		);
+
+		it(
+			'should handle scoped packages',
+			function(done) {
+				listNpmContents('@busy-web/cli')
+				.then(
+					function(results) {
+						assert.isArray(results);
+
+						assert.equal(results.length, 1);
+						assert.equal(results[0], 'README.md');
+
+						done();
+					}
+				);
 			}
 		);
 
@@ -109,7 +136,7 @@ describe(
 
 				Object.keys(versions).forEach(
 					function(item, index) {
-						assert.equal(listNpmContents.normalizeVersion(item, packageMeta), versions[item]);
+						assert.equal(listNpmContents.normalizeVersion(item, lodashPackageMeta), versions[item]);
 					}
 				);
 
@@ -124,7 +151,7 @@ describe(
 						var err = null;
 
 						try {
-							listNpmContents.normalizeVersion(item, packageMeta);
+							listNpmContents.normalizeVersion(item, lodashPackageMeta);
 						}
 						catch (e) {
 							err = e;
@@ -153,10 +180,10 @@ describe(
 		it(
 			'should create a valid tmp directory',
 			function(done) {
-				listNpmContents.createTmp(dist.tarball).then(
+				listNpmContents.createTmp(lodashDist.tarball).then(
 					function(obj) {
 						assert.isObject(obj);
-						assert.equal(obj.filePath, archivePath);
+						assert.equal(obj.filePath, lodashPath);
 
 						assert.isTrue(isUrl(obj.url));
 
@@ -172,13 +199,13 @@ describe(
 			function(done) {
 				listNpmContents.download(
 					{
-						filePath: archivePath,
-						url: dist.tarball
+						filePath: lodashPath,
+						url: lodashDist.tarball
 					}
 				).then(
 					function(filePath) {
 						assert.equal(fs.writeFile.args[0][0], filePath);
-						assert.equal(filePath, archivePath);
+						assert.equal(filePath, lodashPath);
 
 						done();
 					}

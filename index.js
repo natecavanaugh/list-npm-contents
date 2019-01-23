@@ -7,6 +7,7 @@ const isUrl = require('is-url');
 const path = require('path');
 const Promise = require('bluebird');
 const tmp = require('tmp');
+const registryUrl = require('registry-url');
 
 Promise.promisifyAll(tmp);
 
@@ -17,7 +18,7 @@ Promise.promisifyAll(archive);
 
 const SEMVER = /^(?=\d)((x|\d+)\.?){1,}$/;
 
-let registry = 'https://registry.npmjs.org/';
+let registry = registryUrl();
 
 const createTmp = function(url) {
 	return tmp.dirAsync(

@@ -30,6 +30,7 @@
     "is-url": "^1.2.2",
     "ls-archive": "^1.2.3",
     "meow": "^3.3.0",
+    "registry-url": "^4.0.0",
     "tmp": "0.0.31"
   },
   "devDependencies": {

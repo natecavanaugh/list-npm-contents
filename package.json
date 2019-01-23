@@ -1,6 +1,6 @@
 {
   "name": "list-npm-contents",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "List the contents of an npm package",
   "license": "MIT",
   "repository": "natecavanaugh/list-npm-contents",
